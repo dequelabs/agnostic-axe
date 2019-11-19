@@ -2,8 +2,14 @@
   "name": "agnostic-axe",
   "version": "0.0.1",
   "description": "Framework agnostic accessibility auditing with axe-core",
-  "main": "index.js",
+  "main": "dist/index.js",
+  "umd:main": "dist/index.umd.js",
+  "module": "dist/index.mjs",
+  "source": "index.js",
   "scripts": {
+    "build": "npx microbundle",
+    "dev": "npx microbundle --watch",
+    "prepublishOnly": "npm run build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -22,5 +28,8 @@
   "bugs": {
     "url": "https://github.com/juliettepretot/agnostic-axe/issues"
   },
-  "homepage": "https://github.com/juliettepretot/agnostic-axe#readme"
+  "homepage": "https://github.com/juliettepretot/agnostic-axe#readme",
+  "devDependencies": {
+    "microbundle": "^0.11.0"
+  }
 }
