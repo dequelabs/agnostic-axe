@@ -1,0 +1,26 @@
+{
+  "name": "agnostic-axe",
+  "version": "0.0.1",
+  "description": "Framework agnostic accessibility auditing with axe-core",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://laurajuliette@github.com/juliettepretot/agnostic-axe.git"
+  },
+  "keywords": [
+    "axe",
+    "accessibility",
+    "axe-core",
+    "audit",
+    "reporter"
+  ],
+  "author": "LF Juliette Pretot",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/juliettepretot/agnostic-axe/issues"
+  },
+  "homepage": "https://github.com/juliettepretot/agnostic-axe#readme"
+}
