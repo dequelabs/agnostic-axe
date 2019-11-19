@@ -38,5 +38,8 @@
       "pre-commit": "./node_modules/.bin/clean-slate-lint",
       "pre-rewrite": "./node_modules/.bin/clean-slate-lint"
     }
+  },
+  "dependencies": {
+    "axe-core": "^3.4.0"
   }
 }
