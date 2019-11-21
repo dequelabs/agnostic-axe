@@ -13,29 +13,30 @@ npm install --save-dev agnostic-axe
 ## Usage
 
 ```js
-import('agnostic-axe').then(AxeReporter => {
-  const MyAxeReporter = new AxeReporter()
-  MyAxeReporter.observe(document)
+import('agnostic-axe').then(({ AxeObserver, logViolations }) => {
+  const MyAxeObserver = new AxeObserver(logViolations)
+  MyAxeObserver.observe(document)
 })
 ```
 
 > Be sure to only run the module in your development environment. Else your application will use more resources than necessary when in production.
 
-Once the `observe` method has been invoked, `MyAxeReporter` starts reporting accessibility defects to the browser console. It continously observes the passed node for changes. If a change has been detected, it will reanalyze the node and report any new accessibility defects.
+In the example above, once the `observe` method has been invoked, `MyAxeObserver` starts reporting accessibility defects to the browser console. It continously observes the passed node for changes. If a change has been detected, it will reanalyze the node and report any new accessibility defects.
 
 To stop observing changes, one can call the `disconnect` method.
 
 ```js
-MyAxeReporter.disconnect()
+MyAxeObserver.disconnect()
 ```
 
 ### Configuration
 
-The `AxeReporter` constructor takes one parameter:
+The `AxeObserver` constructor takes two parameters:
 
+- `violationsCallback` (required). A function that is invoked with an array of violations, as reported by [axe-core](https://github.com/dequelabs/axe-core). To log violations to the console, simply pass the `logViolations` function exported by this module.
 - `axeOptions` (optional). It is a configuration object for [axe-core](https://github.com/dequelabs/axe-core). Read about the object at https://github.com/dequelabs/axe-core/blob/master/doc/API.md#api-name-axeOptionsure. To see the default configuration used by `agnostic-axe`, see the source code.
 
-The `AxeReporter.observe` method takes two parameters:
+The `AxeObserver.observe` method takes two parameters:
 
 - `targetNode` (required). The node that should be observed & analyzed.
 - `debounceMs` (optional, defaults to `1000`). The number of milliseconds to wait for component updates to cease before performing an analysis of all the changes.
