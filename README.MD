@@ -13,19 +13,21 @@ npm install --save-dev agnostic-axe
 ## Usage
 
 ```js
-if (process.env.NODE_ENV !== 'production') {
-  import('agnostic-axe').then(AxeReporter => {
-    const MyAxeReporter = new AxeReporter()
-    MyAxeReporter.observe(document)
-  })
-}
+import('agnostic-axe').then(AxeReporter => {
+  const MyAxeReporter = new AxeReporter()
+  MyAxeReporter.observe(document)
+})
 ```
 
-Be sure to only run the module in your development environment (as shown in the code above) or else your application will use more resources than necessary when in production.
+> Be sure to only run the module in your development environment. Else your application will use more resources than necessary when in production.
 
 Once the `observe` method has been invoked, `MyAxeReporter` starts reporting accessibility defects to the browser console. It continously observes the passed node for changes. If a change has been detected, it will reanalyze the node and report any new accessibility defects.
 
 To stop observing changes, one can call the `disconnect` method.
+
+```js
+MyAxeReporter.disconnect()
+```
 
 ### Configuration
 
