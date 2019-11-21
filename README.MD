@@ -39,7 +39,8 @@ The `AxeObserver` constructor takes two parameters:
 The `AxeObserver.observe` method takes two parameters:
 
 - `targetNode` (required). The node that should be observed & analyzed.
-- `debounceMs` (optional, defaults to `1000`). The number of milliseconds to wait for component updates to cease before performing an analysis of all the changes.
+- `debounceMs` (optional, defaults to `1000`). The number of milliseconds that updates should cease before an analysis is performed.
+- `maxWaitMs` (optional, defaults to `debounceMs * 5`). Number of milliseconds after which an analysis will be performed, even if the targetNode is still updating.
 
 ## Credits
 

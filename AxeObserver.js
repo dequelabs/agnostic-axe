@@ -1,4 +1,5 @@
 import axeCore from 'axe-core'
+import debounce from 'lodash.debounce'
 
 // If requestIdleCallback is not supported, we fallback to setTimeout
 // Ref: https://developers.google.com/web/updates/2015/08/using-requestidlecallback
@@ -7,16 +8,6 @@ const requestIdleCallback =
   function(callback) {
     setTimeout(callback, 1)
   }
-
-// Define own debounce function to avoid excess dependencies
-// Ref: https://chrisboakes.com/how-a-javascript-debounce-function-works/
-function debounce(callback, wait) {
-  let timeout
-  return (...args) => {
-    clearTimeout(timeout)
-    timeout = setTimeout(() => callback.apply(this, args), wait)
-  }
-}
 
 // The AxeObserver class takes a violationsCallback, which is invoked with an
 // array of observed violations.
@@ -53,14 +44,15 @@ export default class AxeObserver {
 
     axeCore.configure(axeConfiguration)
   }
-  observe(targetNode, debounceMs = 1000) {
+  observe(targetNode, debounceMs = 1000, maxWaitMs = debounceMs * 5) {
     if (!targetNode) {
       throw new Error('AxeObserver.observe requires a targetNode')
     }
 
     const scheduleAudit = debounce(
       () => requestIdleCallback(() => this._auditTargetNode(targetNode)),
-      debounceMs
+      debounceMs,
+      { leading: true, maxWait: maxWaitMs }
     )
     const mutationObserver = new window.MutationObserver(scheduleAudit)
 
