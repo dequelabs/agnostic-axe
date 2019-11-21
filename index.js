@@ -19,24 +19,36 @@ function debounce(callback, wait) {
 }
 
 class AxeReporter {
-  constructor() {
+  constructor(
+    axeConfiguration = {
+      reporter: 'v2',
+      checks: [
+        {
+          id: 'color-contrast',
+          options: {
+            // Prevent axe from automatically scrolling
+            noScroll: true
+          }
+        }
+      ]
+    }
+  ) {
     this.observe = this.observe.bind(this)
     this.disconnect = this.disconnect.bind(this)
     this._auditTargetNode = this._auditTargetNode.bind(this)
 
     this._mutationObservers = []
     this._alreadyReportedIncidents = new Set()
+
+    axe.configure(axeConfiguration)
   }
-  observe(targetNode, debounceMs = 1000, axeOptions = {}) {
+  observe(targetNode, debounceMs = 1000) {
     if (!targetNode) {
       throw new Error('AxeReporter.observe requires a targetNode')
     }
 
     const scheduleAudit = debounce(
-      () =>
-        requestIdleCallback(() =>
-          this._auditTargetNode(targetNode, axeOptions)
-        ),
+      () => requestIdleCallback(() => this._auditTargetNode(targetNode)),
       debounceMs
     )
     const mutationObserver = new window.MutationObserver(scheduleAudit)
@@ -57,12 +69,8 @@ class AxeReporter {
       mutationObserver.disconnect()
     })
   }
-  async _auditTargetNode(targetNode, axeOptions) {
-    const response = await axe.run(targetNode, {
-      ...axeOptions,
-      // Require version reporter 2.
-      reporter: 'v2'
-    })
+  async _auditTargetNode(targetNode) {
+    const response = await axe.run(targetNode)
 
     const violationsToReport = response.violations.filter(violation => {
       const filteredNodes = violation.nodes.filter(node => {

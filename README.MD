@@ -29,11 +29,14 @@ To stop observing changes, one can call the `disconnect` method.
 
 ### Configuration
 
-The `AxeReporter` `observe` method takes three parameters:
+The `AxeReporter` constructor takes one parameter:
+
+- `axeOptions` (optional). It is a configuration object for [axe-core](https://github.com/dequelabs/axe-core). Read about the object at https://github.com/dequelabs/axe-core/blob/master/doc/API.md#api-name-axeOptionsure. To see the default configuration used by `agnostic-axe`, see the source code.
+
+The `AxeReporter.observe` method takes two parameters:
 
 - `targetNode` (required). The node that should be observed & analyzed.
 - `debounceMs` (optional, defaults to `1000`). The number of milliseconds to wait for component updates to cease before performing an analysis of all the changes.
-- `axeOptions` (optional, defaults to `{}`). It is a configuration object for [axe-core](https://github.com/dequelabs/axe-core). Read about the object at https://github.com/dequelabs/axe-core/blob/master/doc/API.md#api-name-axeOptionsure. Note that `agnostic-axe` always runs [axe-core](https://github.com/dequelabs/axe-core) with the `reporter: 'v2'` option.
 
 ## Credits
 
