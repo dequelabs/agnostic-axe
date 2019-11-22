@@ -14,17 +14,19 @@ const requestIdleCallback =
 export default class AxeObserver {
   constructor(
     violationsCallback,
-    axeConfiguration = {
-      reporter: 'v2',
-      checks: [
-        {
-          id: 'color-contrast',
-          options: {
-            // Prevent axe from automatically scrolling
-            noScroll: true
+    axeConfiguration = axeInstance => {
+      axeInstance.configure({
+        reporter: 'v2',
+        checks: [
+          {
+            id: 'color-contrast',
+            options: {
+              // Prevent axe from automatically scrolling
+              noScroll: true
+            }
           }
-        }
-      ]
+        ]
+      })
     }
   ) {
     if (typeof violationsCallback !== 'function') {
@@ -42,7 +44,7 @@ export default class AxeObserver {
     this._mutationObservers = []
     this._alreadyReportedIncidents = new Set()
 
-    axeCore.configure(axeConfiguration)
+    axeConfiguration(axeCore)
   }
   observe(targetNode, debounceMs = 1000, maxWaitMs = debounceMs * 5) {
     if (!targetNode) {

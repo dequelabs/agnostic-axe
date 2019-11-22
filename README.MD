@@ -34,7 +34,7 @@ MyAxeObserver.disconnect()
 The `AxeObserver` constructor takes two parameters:
 
 - `violationsCallback` (required). A function that is invoked with an array of violations, as reported by [axe-core](https://github.com/dequelabs/axe-core). To log violations to the console, simply pass the `logViolations` function exported by this module.
-- `axeOptions` (optional). It is a configuration object for [axe-core](https://github.com/dequelabs/axe-core). Read about the object at https://github.com/dequelabs/axe-core/blob/master/doc/API.md#api-name-axeOptionsure. To see the default configuration used by `agnostic-axe`, see the source code.
+- `axeConfiguration` (optional). A function that is invoked with the instance of [axe-core](https://github.com/dequelabs/axe-core) used by module. It can be used to [configure axe-core](https://github.com/dequelabs/axe-core/blob/develop/doc/API.md#api-name-axeconfigure). See the source code for the default configuration used.
 
 The `AxeObserver.observe` method takes two parameters:
 
