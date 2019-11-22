@@ -14,8 +14,8 @@ const requestIdleCallback =
 export default class AxeObserver {
   constructor(
     violationsCallback,
-    axeConfiguration = axeInstance => {
-      axeInstance.configure({
+    {
+      axeCoreConfiguration = {
         reporter: 'v2',
         checks: [
           {
@@ -26,7 +26,8 @@ export default class AxeObserver {
             }
           }
         ]
-      })
+      },
+      axeCoreInstanceCallback
     }
   ) {
     if (typeof violationsCallback !== 'function') {
@@ -44,9 +45,15 @@ export default class AxeObserver {
     this._mutationObservers = []
     this._alreadyReportedIncidents = new Set()
 
-    axeConfiguration(axeCore)
+    // Allow for registering plugins etc
+    if (typeof axeInstanceCallback === 'function') {
+      axeCoreInstanceCallback(axeCore)
+    }
+
+    // Configure axe
+    axeCore.configure(axeCoreConfiguration)
   }
-  observe(targetNode, debounceMs = 1000, maxWaitMs = debounceMs * 5) {
+  observe(targetNode, { debounceMs = 1000, maxWaitMs = debounceMs * 5 }) {
     if (!targetNode) {
       throw new Error('AxeObserver.observe requires a targetNode')
     }

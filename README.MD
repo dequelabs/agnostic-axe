@@ -34,13 +34,16 @@ MyAxeObserver.disconnect()
 The `AxeObserver` constructor takes two parameters:
 
 - `violationsCallback` (required). A function that is invoked with an array of violations, as reported by [axe-core](https://github.com/dequelabs/axe-core). To log violations to the console, simply pass the `logViolations` function exported by this module.
-- `axeConfiguration` (optional). A function that is invoked with the instance of [axe-core](https://github.com/dequelabs/axe-core) used by module. It can be used to [configure axe-core](https://github.com/dequelabs/axe-core/blob/develop/doc/API.md#api-name-axeconfigure). See the source code for the default configuration used.
+- `options` (optional). An object with that supports the following configuration keys:
+  - `axeCoreConfiguration` (optional). A configuration object for axe-core. Read about the object here in the [axe-core docs](https://github.com/dequelabs/axe-core/blob/master/doc/API.md#api-name-axeconfigure) and see the `agnostic-axe` source code for the default options used.
+  - `axeCoreInstanceCallback` (optional). A function that is invoked with the instance of [axe-core](https://github.com/dequelabs/axe-core) used by module. It can be used for complex interactions with the [axe-core API](https://github.com/dequelabs/axe-core/blob/develop/doc/API.md) such as registering plugins.
 
 The `AxeObserver.observe` method takes two parameters:
 
 - `targetNode` (required). The node that should be observed & analyzed.
-- `debounceMs` (optional, defaults to `1000`). The number of milliseconds that updates should cease before an analysis is performed.
-- `maxWaitMs` (optional, defaults to `debounceMs * 5`). Number of milliseconds after which an analysis will be performed, even if the targetNode is still updating.
+- `options` (optional). An object with that supports the following configuration keys:
+  - `debounceMs` (optional, defaults to `1000`). The number of milliseconds that updates should cease before an analysis is performed.
+  - `maxWaitMs` (optional, defaults to `debounceMs * 5`). Number of milliseconds after which an analysis will be performed, even if the targetNode is still updating.
 
 ## Credits
 
