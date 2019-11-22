@@ -1,0 +1,46 @@
+{
+  "name": "agnostic-axe",
+  "version": "1.0.0",
+  "description": "Framework agnostic accessibility auditing with axe-core",
+  "main": "dist/index.js",
+  "umd:main": "dist/index.umd.js",
+  "module": "dist/index.mjs",
+  "source": "index.js",
+  "scripts": {
+    "build": "npx microbundle",
+    "dev": "npx microbundle --watch",
+    "prepublishOnly": "npm run build",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://laurajuliette@github.com/juliettepretot/agnostic-axe.git"
+  },
+  "keywords": [
+    "axe",
+    "accessibility",
+    "axe-core",
+    "audit",
+    "reporter"
+  ],
+  "author": "LF Juliette Pretot",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/juliettepretot/agnostic-axe/issues"
+  },
+  "homepage": "https://github.com/juliettepretot/agnostic-axe#readme",
+  "devDependencies": {
+    "clean-slate-lint": "^1.0.9",
+    "microbundle": "^0.11.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "./node_modules/.bin/clean-slate-lint",
+      "pre-rewrite": "./node_modules/.bin/clean-slate-lint"
+    }
+  },
+  "dependencies": {
+    "axe-core": "^3.4.0",
+    "lodash.debounce": "^4.0.8"
+  }
+}
