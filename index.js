@@ -1,4 +1,5 @@
-import AxeObserver from './AxeObserver.js'
-import logViolations from './logViolations.js'
+import _AxeObserver from './AxeObserver.js'
+import _logViolations from './logViolations.js'
 
-export default { AxeObserver, logViolations }
+export const AxeObserver = _AxeObserver
+export const logViolations = _logViolations

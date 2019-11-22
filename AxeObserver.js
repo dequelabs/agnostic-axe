@@ -28,7 +28,7 @@ export default class AxeObserver {
         ]
       },
       axeCoreInstanceCallback
-    }
+    } = {}
   ) {
     if (typeof violationsCallback !== 'function') {
       throw new Error(
@@ -53,7 +53,7 @@ export default class AxeObserver {
     // Configure axe
     axeCore.configure(axeCoreConfiguration)
   }
-  observe(targetNode, { debounceMs = 1000, maxWaitMs = debounceMs * 5 }) {
+  observe(targetNode, { debounceMs = 1000, maxWaitMs = debounceMs * 5 } = {}) {
     if (!targetNode) {
       throw new Error('AxeObserver.observe requires a targetNode')
     }
