@@ -9,7 +9,7 @@ You can install the module from NPM via (`npm install --save-dev agnostic-axe`) 
 ## Usage
 
 ```js
-import('http://unpkg.com/agnostic-axe').then(
+import('https://unpkg.com/agnostic-axe@1').then(
   ({ AxeObserver, logViolations }) => {
     const MyAxeObserver = new AxeObserver(logViolations)
     MyAxeObserver.observe(document)
