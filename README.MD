@@ -4,19 +4,17 @@ Test your web application with the [axe-core](https://github.com/dequelabs/axe-c
 
 ## Installation
 
-You can install the module from NPM.
-
-```sh
-npm install --save-dev agnostic-axe
-```
+You can install the module from NPM via (`npm install --save-dev agnostic-axe`) or directly import it from the URL, as shown below:
 
 ## Usage
 
 ```js
-import('agnostic-axe').then(({ AxeObserver, logViolations }) => {
-  const MyAxeObserver = new AxeObserver(logViolations)
-  MyAxeObserver.observe(document)
-})
+import('http://unpkg.com/agnostic-axe').then(
+  ({ AxeObserver, logViolations }) => {
+    const MyAxeObserver = new AxeObserver(logViolations)
+    MyAxeObserver.observe(document)
+  }
+)
 ```
 
 > Be sure to only run the module in your development environment. Else your application will use more resources than necessary when in production.
