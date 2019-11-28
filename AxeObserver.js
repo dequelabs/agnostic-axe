@@ -1,5 +1,6 @@
 import axeCore from 'axe-core'
 import debounce from 'lodash.debounce'
+import PQueue from 'p-queue'
 
 // If requestIdleCallback is not supported, we fallback to setTimeout
 // Ref: https://developers.google.com/web/updates/2015/08/using-requestidlecallback
@@ -8,6 +9,11 @@ const requestIdleCallback =
   function(callback) {
     setTimeout(callback, 1)
   }
+
+// axe-core cannot be run concurrently. There are no plans to implement this
+// functionality or a queue. Hence we use PQueue to queue calls ourselves.
+// Ref: https://github.com/storybookjs/storybook/pull/4086
+const axeQueue = new PQueue({ concurrency: 1 })
 
 // The AxeObserver class takes a violationsCallback, which is invoked with an
 // array of observed violations.
@@ -82,7 +88,7 @@ export default class AxeObserver {
     })
   }
   async _auditTargetNode(targetNode) {
-    const response = await axeCore.run(targetNode)
+    const response = await axeQueue.add(() => axeCore.run(targetNode))
 
     const violationsToReport = response.violations.filter(violation => {
       const filteredNodes = violation.nodes.filter(node => {
