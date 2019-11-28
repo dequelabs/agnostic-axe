@@ -1,5 +1,4 @@
 import axeCore from 'axe-core'
-import debounce from 'lodash.debounce'
 import PQueue from 'p-queue'
 
 // If requestIdleCallback is not supported, we fallback to setTimeout
@@ -46,10 +45,14 @@ export default class AxeObserver {
 
     this.observe = this.observe.bind(this)
     this.disconnect = this.disconnect.bind(this)
-    this._auditTargetNode = this._auditTargetNode.bind(this)
+    this._scheduleAudit = this._scheduleAudit.bind(this)
 
-    this._mutationObservers = []
     this._alreadyReportedIncidents = new Set()
+    this._mutationObserver = new window.MutationObserver(mutationRecords => {
+      mutationRecords.forEach(mutationRecord => {
+        this._scheduleAudit(mutationRecord.target)
+      })
+    })
 
     // Allow for registering plugins etc
     if (typeof axeInstanceCallback === 'function') {
@@ -59,36 +62,40 @@ export default class AxeObserver {
     // Configure axe
     axeCore.configure(axeCoreConfiguration)
   }
-  observe(targetNode, { debounceMs = 1000, maxWaitMs = debounceMs * 5 } = {}) {
+  observe(targetNode) {
     if (!targetNode) {
       throw new Error('AxeObserver.observe requires a targetNode')
     }
 
-    const scheduleAudit = debounce(
-      () => requestIdleCallback(() => this._auditTargetNode(targetNode)),
-      debounceMs,
-      { leading: true, maxWait: maxWaitMs }
-    )
-    const mutationObserver = new window.MutationObserver(scheduleAudit)
-
-    // observe changes
-    mutationObserver.observe(targetNode, {
+    this._mutationObserver.observe(targetNode, {
       attributes: true,
       subtree: true
     })
 
-    this._mutationObservers.push(mutationObserver)
-
-    // run initial audit
-    scheduleAudit(targetNode)
+    // run initial audit on the whole targetNode
+    this._scheduleAudit(targetNode)
   }
   disconnect() {
-    this._mutationObservers.forEach(mutationObserver => {
-      mutationObserver.disconnect()
-    })
+    this.mutationObserver.disconnect()
   }
-  async _auditTargetNode(targetNode) {
-    const response = await axeQueue.add(() => axeCore.run(targetNode))
+  async _scheduleAudit(node) {
+    const response = await axeQueue.add(
+      () =>
+        new Promise(resolve => {
+          requestIdleCallback(
+            () => {
+              // Since audits are scheduled asynchronously, it can happen that
+              // the node is no longer connected. We cannot analyze it then.
+              node.isConnected ? axeCore.run(node).then(resolve) : resolve(null)
+            },
+            // Time after which an audit will be performed, even if it may
+            // negatively affect performance.
+            { timeout: 1000 }
+          )
+        })
+    )
+
+    if (!response) return
 
     const violationsToReport = response.violations.filter(violation => {
       const filteredNodes = violation.nodes.filter(node => {

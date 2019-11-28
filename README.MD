@@ -19,7 +19,7 @@ import('https://unpkg.com/agnostic-axe@2').then(
 
 > Be sure to only run the module in your development environment. Else your application will use more resources than necessary when in production.
 
-In the example above, once the `observe` method has been invoked, `MyAxeObserver` starts reporting accessibility defects to the browser console. It continously observes the passed node for changes. If a change has been detected, it will reanalyze the node and report any new accessibility defects.
+In the example above, once the `observe` method has been invoked, `MyAxeObserver` audits the passed node and reports any accessibility defects to the browser console. It continously observes the passed node for changes. If a change has been detected, it will audit the parts of the nodes that have changed, and report any new accessibility defects.
 
 To observe multiple nodes, one can call the `observe` method multiple times.
 
@@ -49,9 +49,6 @@ The `AxeObserver` constructor takes two parameters:
 The `AxeObserver.observe` method takes two parameters:
 
 - `targetNode` (required). The node that should be observed & analyzed.
-- `options` (optional). An object with that supports the following configuration keys:
-  - `debounceMs` (optional, defaults to `1000`). The number of milliseconds that updates should cease before an analysis is performed.
-  - `maxWaitMs` (optional, defaults to `debounceMs * 5`). Number of milliseconds after which an analysis will be performed, even if the targetNode is still updating.
 
 ## Credits
 
