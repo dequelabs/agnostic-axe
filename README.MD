@@ -21,6 +21,16 @@ import('https://unpkg.com/agnostic-axe@1').then(
 
 In the example above, once the `observe` method has been invoked, `MyAxeObserver` starts reporting accessibility defects to the browser console. It continously observes the passed node for changes. If a change has been detected, it will reanalyze the node and report any new accessibility defects.
 
+To observe multiple nodes, one can call the `observe` method multiple times.
+
+> Note that due to a [limitation of axe-core](https://github.com/dequelabs/axe-core/pull/1914), there should never be more than one instance of AxeObserver running in the same enviroment.
+
+```js
+MyAxeObserver.observe(root1)
+MyAxeObserver.observe(root2)
+MyAxeObserver.observe(root3)
+```
+
 To stop observing changes, one can call the `disconnect` method.
 
 ```js
