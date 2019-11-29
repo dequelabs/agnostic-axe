@@ -46,7 +46,7 @@ The `AxeObserver` constructor takes two parameters:
   - `axeCoreConfiguration` (optional). A configuration object for axe-core. Read about the object here in the [axe-core docs](https://github.com/dequelabs/axe-core/blob/master/doc/API.md#api-name-axeconfigure) and see the `agnostic-axe` source code for the default options used.
   - `axeCoreInstanceCallback` (optional). A function that is invoked with the instance of [axe-core](https://github.com/dequelabs/axe-core) used by module. It can be used for complex interactions with the [axe-core API](https://github.com/dequelabs/axe-core/blob/develop/doc/API.md) such as registering plugins.
 
-The `AxeObserver.observe` method takes two parameters:
+The `AxeObserver.observe` method takes one parameter:
 
 - `targetNode` (required). The node that should be observed & analyzed.
 
