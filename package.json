@@ -43,6 +43,6 @@
   },
   "dependencies": {
     "axe-core": "^3.4.0",
-    "p-queue": "^6.2.1"
+    "idlize": "^0.1.1"
   }
 }
