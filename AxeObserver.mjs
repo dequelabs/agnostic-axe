@@ -1,5 +1,5 @@
 import axeCore from 'axe-core'
-import AuditQueue from './AuditQueue.js'
+import AuditQueue from './AuditQueue.mjs'
 
 // The AxeObserver class takes a violationsCallback, which is invoked with an
 // array of observed violations.
