@@ -5,7 +5,7 @@
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "unpkg": "dist/standalone.mjs",
-  "source": "index.mjs",
+  "source": "src/index.mjs",
   "scripts": {
     "build": "npm run build:dependencies && npm run build:standalone",
     "build:dependencies": "npx microbundle -f es,cjs",
