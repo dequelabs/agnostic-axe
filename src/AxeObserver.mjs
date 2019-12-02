@@ -6,8 +6,8 @@ import AuditQueue from './AuditQueue.mjs'
 export default class AxeObserver {
   constructor(
     violationsCallback,
-    axeCoreConfigurationCallback = function(axeInstance) {
-      axeInstance.configure({
+    {
+      axeCoreConfiguration = {
         reporter: 'v2',
         checks: [
           {
@@ -18,8 +18,9 @@ export default class AxeObserver {
             }
           }
         ]
-      })
-    }
+      },
+      axeCoreInstanceCallback
+    } = {}
   ) {
     if (typeof violationsCallback !== 'function') {
       throw new Error(
@@ -43,10 +44,13 @@ export default class AxeObserver {
     // AuditQueue sequentially runs audits when the browser is idle.
     this._auditQueue = new AuditQueue()
 
-    // Configure axe, register plugins etc
+    // Allow for registering plugins etc
     if (typeof axeInstanceCallback === 'function') {
-      axeCoreConfigurationCallback(axeCore)
+      axeCoreInstanceCallback(axeCore)
     }
+
+    // Configure axe
+    axeCore.configure(axeCoreConfiguration)
   }
   observe(targetNode) {
     if (!targetNode) {
