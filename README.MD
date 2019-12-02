@@ -23,8 +23,7 @@ The `AxeObserver` constructor takes two parameters:
 
 - `violationsCallback` (required). A function that is invoked with an array of violations, as reported by [axe-core](https://github.com/dequelabs/axe-core). To log violations to the console, simply pass the `logViolations` function exported by this module.
 - `options` (optional). An object with that supports the following configuration keys:
-  - `axeCoreConfiguration` (optional). [A configuration object for axe-core](https://github.com/dequelabs/axe-core/blob/master/doc/API.md#api-name-axeconfigure). Overwrites the default configuration used by agnostic axe.
-  - `axeCoreInstanceCallback` (optional). A callback that is invoked with the [axe-core](https://github.com/dequelabs/axe-core) instance.
+  - `axeCoreInstanceCallback` (optional). A function that is invoked with the [axe-core API](https://github.com/dequelabs/axe-core/blob/master/doc/API.md) instance to apply configuration. Overwrites the default configuration used by agnostic axe.
 
 The `AxeObserver.observe` method takes one parameter:
 
@@ -38,7 +37,7 @@ MyAxeObserver.observe(document.getElementById('vue-header'))
 MyAxeObserver.observe(document.getElementById('page-footer'))
 ```
 
-To stop observing changes, call the `disconnect` method.
+To stop observing changes, call the `disconnect` method. This will also clear the cache of already reported violations.
 
 ```js
 MyAxeObserver.disconnect()
