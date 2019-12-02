@@ -7,19 +7,20 @@ export default class AxeObserver {
   constructor(
     violationsCallback,
     {
-      axeCoreConfiguration = {
-        reporter: 'v2',
-        checks: [
-          {
-            id: 'color-contrast',
-            options: {
-              // Prevent axe from automatically scrolling
-              noScroll: true
+      axeCoreConfigurationCallback = function(axeInstance) {
+        axeInstance.configure({
+          reporter: 'v2',
+          checks: [
+            {
+              id: 'color-contrast',
+              options: {
+                // Prevent axe from automatically scrolling
+                noScroll: true
+              }
             }
-          }
-        ]
-      },
-      axeCoreInstanceCallback
+          ]
+        })
+      }
     } = {}
   ) {
     if (typeof violationsCallback !== 'function') {
@@ -44,13 +45,10 @@ export default class AxeObserver {
     // AuditQueue sequentially runs audits when the browser is idle.
     this._auditQueue = new AuditQueue()
 
-    // Allow for registering plugins etc
+    // Configure axe, register plugins etc
     if (typeof axeInstanceCallback === 'function') {
-      axeCoreInstanceCallback(axeCore)
+      axeCoreConfigurationCallback(axeCore)
     }
-
-    // Configure axe
-    axeCore.configure(axeCoreConfiguration)
   }
   observe(targetNode) {
     if (!targetNode) {
