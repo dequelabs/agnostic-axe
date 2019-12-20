@@ -7,7 +7,7 @@ Agnostic axe logs accessibility issues to the browser console, as you develop yo
 Install the module from NPM (`npm install --save-dev agnostic-axe`) or directly import it from the URL:
 
 ```js
-import('https://unpkg.com/agnostic-axe@2').then(
+import('https://unpkg.com/agnostic-axe@3').then(
   ({ AxeObserver, logViolations }) => {
     const MyAxeObserver = new AxeObserver(logViolations)
     MyAxeObserver.observe(document)
