@@ -45,7 +45,7 @@ export default class AxeObserver {
     this._auditQueue = new AuditQueue()
 
     // Allow for registering plugins etc
-    if (typeof axeInstanceCallback === 'function') {
+    if (typeof axeCoreInstanceCallback === 'function') {
       axeCoreInstanceCallback(axeCore)
     }
 
