@@ -37,7 +37,7 @@ MyAxeObserver.observe(document.getElementById('vue-header'))
 MyAxeObserver.observe(document.getElementById('page-footer'))
 ```
 
-To stop observing changes, call the `disconnect` method.
+To stop observing changes, call the `disconnect` method. Clears the cache of previously reported violations.
 
 ```js
 MyAxeObserver.disconnect()
