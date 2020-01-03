@@ -2,6 +2,8 @@
 
 Agnostic axe logs accessibility issues to the browser console, as you develop your app. Its audits are powered by [axe-core](https://github.com/dequelabs/axe-core).
 
+![Screenshot of an opened website, with accessibility issues displayed in the browser console](screenshot.png)
+
 ## Basic Usage
 
 Install the module from NPM (`npm install --save-dev agnostic-axe`) or directly import it from the URL:
