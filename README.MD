@@ -2,7 +2,7 @@
 
 Developer tool that continously observes the DOM to detect accessibility issues. Its audits are powered by [axe-core](https://github.com/dequelabs/axe-core).
 
-![Screenshot of an opened website, with accessibility issues displayed in the browser console](screenshot.png)
+![Screenshot of an opened website, with accessibility issues displayed in the browser console](screenshot.jpg)
 
 ## Basic Usage
 
