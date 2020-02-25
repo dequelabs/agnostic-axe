@@ -9,7 +9,7 @@ Developer tool that continously observes the DOM to detect accessibility issues.
 This is all you need to start reporting accessibility issues to the browser console:
 
 ```js
-import('https://unpkg.com/agnostic-axe@2').then(
+import('https://unpkg.com/agnostic-axe@3').then(
   ({ AxeObserver, logViolations }) => {
     const MyAxeObserver = new AxeObserver(logViolations)
     MyAxeObserver.observe(document)
