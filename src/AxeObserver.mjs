@@ -15,14 +15,16 @@ axeCore.configure({
   ]
 })
 
-export const axeCore
+export const axeCoreInstance = axeCore
+
+// Axe core does allow parallel audits in the same env. Hence a queue is shared
+// across AxeObserver instances.
+const sharedAuditQueue = new AuditQueue()
 
 // The AxeObserver class takes a violationsCallback, which is invoked with an
 // array of observed violations.
 export default class AxeObserver {
-  constructor(
-    violationsCallback
-  ) {
+  constructor(violationsCallback) {
     if (typeof violationsCallback !== 'function') {
       throw new Error(
         'The AxeObserver constructor requires a violationsCallback'
@@ -33,7 +35,6 @@ export default class AxeObserver {
 
     this.observe = this.observe.bind(this)
     this.disconnect = this.disconnect.bind(this)
-    this._auditNode = this._auditNode.bind(this)
 
     this._alreadyReportedIncidents = new Set()
     this._mutationObserver = new window.MutationObserver(mutationRecords => {
@@ -41,9 +42,6 @@ export default class AxeObserver {
         this._auditNode(mutationRecord.target)
       })
     })
-
-    // AuditQueue sequentially runs audits when the browser is idle.
-    this._auditQueue = new AuditQueue()
   }
   observe(targetNode) {
     if (!targetNode) {
@@ -63,7 +61,7 @@ export default class AxeObserver {
     this.__alreadyReportedIncidents.clear()
   }
   async _auditNode(node) {
-    const response = await this._auditQueue.run(async () => {
+    const response = await sharedAuditQueue.run(async () => {
       // Since audits are scheduled asynchronously, it can happen that
       // the node is no longer connected. We cannot analyze it then.
       return node.isConnected ? axeCore.run(node) : null

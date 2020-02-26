@@ -37,8 +37,6 @@ Accepts one parameter:
 
 To observe multiple nodes, one can call the `AxeObserver.observe` method multiple times.
 
-Note that due to limitations imposed by [axe-core](https://github.com/dequelabs/axe-core), there should never be more than one instance of AxeObserver in the same enviroment.
-
 ```js
 MyAxeObserver.observe(document.getElementById('react-main'))
 MyAxeObserver.observe(document.getElementById('vue-header'))
