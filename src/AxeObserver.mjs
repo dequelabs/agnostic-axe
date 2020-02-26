@@ -17,7 +17,7 @@ axeCore.configure({
 
 export const axeCoreInstance = axeCore
 
-// Axe core does allow parallel audits in the same env. Hence a queue is shared
+// Axe core does not allow parallel audits in the same env. Hence a queue is shared
 // across AxeObserver instances.
 const sharedAuditQueue = new AuditQueue()
 
