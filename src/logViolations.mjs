@@ -1,4 +1,4 @@
-import axeCore from 'axe-core'
+import { axeCoreInstance } from './AxeObserver'
 
 const boldCourier = 'font-weight:bold;font-family:Courier;'
 const critical = 'color:red;font-weight:bold;'
@@ -64,7 +64,9 @@ function logHtml(node) {
 }
 
 function logFailureMessage(node, key) {
-  var message = axeCore._audit.data.failureSummaries[key].failureMessage(
+  var message = axeCoreInstance._audit.data.failureSummaries[
+    key
+  ].failureMessage(
     node[key].map(function(check) {
       return check.message || ''
     })

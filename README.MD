@@ -23,12 +23,9 @@ Important: When adding Agnostic Axe to your project, be sure to only import it i
 
 ## API Details
 
-The `AxeObserver` constructor takes two parameters:
+The `AxeObserver` constructor accepts one parameter:
 
 - `violationsCallback` (required). A function that is invoked with an array of violations, as reported by [axe-core](https://github.com/dequelabs/axe-core). To log violations to the console, simply pass the `logViolations` function exported by this module.
-- `options` (optional). An object with that supports the following configuration keys:
-  - `axeCoreConfiguration` (optional). [A configuration object for axe-core](https://github.com/dequelabs/axe-core/blob/master/doc/API.md#api-name-axeconfigure). Overwrites the default configuration used by agnostic axe.
-  - `axeCoreInstanceCallback` (optional). A callback that is invoked with the [axe-core](https://github.com/dequelabs/axe-core) instance.
 
 The `AxeObserver.observe` method takes one parameter:
 
@@ -48,6 +45,19 @@ To stop observing changes, invoke the `disconnect` method.
 
 ```js
 MyAxeObserver.disconnect()
+```
+
+### Interacting with the axe-core API
+
+The instance of axe-core used by agnostic-axe is exported by this module. Import it to interact with the [axe-core API](https://github.com/dequelabs/axe-core/blob/develop/doc/API.md).
+
+```js
+import('https://unpkg.com/agnostic-axe@3').then(
+  ({ axeCoreInstance AxeObserver, logViolations }) => {
+    axeCoreInstance.registerPlugin(myPlugin)
+    // ...
+  }
+)
 ```
 
 ## Comparison with react-axe

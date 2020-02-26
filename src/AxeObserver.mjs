@@ -1,26 +1,27 @@
 import axeCore from 'axe-core'
 import AuditQueue from './AuditQueue.mjs'
 
+// Apply default axeCore config
+axeCore.configure({
+  reporter: 'v2',
+  checks: [
+    {
+      id: 'color-contrast',
+      options: {
+        // Prevent axe from automatically scrolling
+        noScroll: true
+      }
+    }
+  ]
+})
+
+export const axeCore
+
 // The AxeObserver class takes a violationsCallback, which is invoked with an
 // array of observed violations.
 export default class AxeObserver {
   constructor(
-    violationsCallback,
-    {
-      axeCoreConfiguration = {
-        reporter: 'v2',
-        checks: [
-          {
-            id: 'color-contrast',
-            options: {
-              // Prevent axe from automatically scrolling
-              noScroll: true
-            }
-          }
-        ]
-      },
-      axeCoreInstanceCallback
-    } = {}
+    violationsCallback
   ) {
     if (typeof violationsCallback !== 'function') {
       throw new Error(
@@ -43,14 +44,6 @@ export default class AxeObserver {
 
     // AuditQueue sequentially runs audits when the browser is idle.
     this._auditQueue = new AuditQueue()
-
-    // Allow for registering plugins etc
-    if (typeof axeCoreInstanceCallback === 'function') {
-      axeCoreInstanceCallback(axeCore)
-    }
-
-    // Configure axe
-    axeCore.configure(axeCoreConfiguration)
   }
   observe(targetNode) {
     if (!targetNode) {
