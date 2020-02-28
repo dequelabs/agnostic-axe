@@ -59,7 +59,7 @@ The instance of axe-core used by agnostic-axe is exported by this module. Import
 
 ```js
 import('https://unpkg.com/agnostic-axe@3').then(
-  ({ axeCoreInstance AxeObserver, logViolations }) => {
+  ({ axeCoreInstance, AxeObserver, logViolations }) => {
     axeCoreInstance.registerPlugin(myPlugin)
     // ...
   }
