@@ -2,14 +2,19 @@ import { rIC as requestIdleCallback } from 'idlize/idle-callback-polyfills.mjs'
 
 export default class AuditQueue {
   constructor() {
-    this._pendingAudits = []
+    this._pendingAudits = new Map()
     this._isRunning = false
 
     this.run = this.run.bind(this)
     this._scheduleAudits = this._scheduleAudits.bind(this)
   }
-  run(getAuditResult) {
-    // Returns a promise that resolves to the result of the auditCallback.
+  run(node, getAuditResult) {
+    if (this._pendingAudits.has(node)) {
+      // This node is already scheduled to be audited.
+      return null
+    }
+
+    // Returns a promise that resolves when this node is audited.
     return new Promise((resolve, reject) => {
       const runAudit = async () => {
         try {
@@ -20,29 +25,28 @@ export default class AuditQueue {
         }
       }
 
-      this._pendingAudits.push(runAudit)
+      this._pendingAudits.set(node, runAudit)
       if (!this._isRunning) this._scheduleAudits()
     })
   }
   _scheduleAudits() {
     this._isRunning = true
     requestIdleCallback(async IdleDeadline => {
-      // Run pending audits as long as they exist & we have time.
-      while (
-        this._pendingAudits.length > 0 &&
-        IdleDeadline.timeRemaining() > 0
-      ) {
+      const iterator = this._pendingAudits.entries()
+
+      for (const [node, runAudit] of iterator) {
         // Only run one audit at a time, as axe-core does not allow for
         // concurrent runs.
         // Ref: https://github.com/dequelabs/axe-core/issues/1041
-        const runAudit = this._pendingAudits[0]
         await runAudit()
+        this._pendingAudits.delete(node)
 
-        // Once an audit has run, remove it from the queue.
-        this._pendingAudits.shift()
+        if (IdleDeadline.timeRemaining() === 0) {
+          break
+        }
       }
 
-      if (this._pendingAudits.length > 0) {
+      if (this._pendingAudits.size > 0) {
         // If pending audits remain, schedule them for the next idle phase.
         this._scheduleAudits()
       } else {

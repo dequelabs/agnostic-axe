@@ -19,7 +19,7 @@ export const axeCoreInstance = axeCore
 
 // Axe core does not allow parallel audits in the same env. Hence a queue is shared
 // across AxeObserver instances.
-const sharedAuditQueue = new AuditQueue()
+const SharedAuditQueue = new AuditQueue()
 
 // The AxeObserver class takes a violationsCallback, which is invoked with an
 // array of observed violations.
@@ -61,7 +61,7 @@ export default class AxeObserver {
     this._alreadyReportedIncidents.clear()
   }
   async _auditNode(node) {
-    const response = await sharedAuditQueue.run(async () => {
+    const response = await SharedAuditQueue.run(node, async () => {
       // Since audits are scheduled asynchronously, it can happen that
       // the node is no longer connected. We cannot analyze it then.
       return node.isConnected ? axeCore.run(node) : null
