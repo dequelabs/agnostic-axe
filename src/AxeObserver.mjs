@@ -58,7 +58,7 @@ export default class AxeObserver {
   }
   disconnect() {
     this._mutationObserver.disconnect()
-    this.__alreadyReportedIncidents.clear()
+    this._alreadyReportedIncidents.clear()
   }
   async _auditNode(node) {
     const response = await sharedAuditQueue.run(async () => {
