@@ -1,6 +1,6 @@
 {
   "name": "agnostic-axe",
-  "version": "3.0.1",
+  "version": "3.0.2",
   "description": "Framework agnostic accessibility auditing with axe-core",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
