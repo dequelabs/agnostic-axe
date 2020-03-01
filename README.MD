@@ -17,7 +17,7 @@ import('https://unpkg.com/agnostic-axe@3').then(
 )
 ```
 
-> To try agnostic-axe on any site, paste the above code into the browser console.
+> To try agnostic-axe, paste the above code into the browser console on a site of your choosing.
 
 When adding agnostic-axe to your project, be sure to only import it in your development environment. Else your application will use more resources than necessary. ([Here's an example of how to do this with webpack](WEBPACK_EXAMPLE.MD))
 
