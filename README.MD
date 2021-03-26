@@ -28,6 +28,7 @@ When adding agnostic-axe to your project, be sure to only import it in your deve
 Accepts one parameter:
 
 - `violationsCallback` (required). A function that is invoked with an array of violations, as reported by [axe-core](https://github.com/dequelabs/axe-core). To log violations to the console, simply pass the `logViolations` function exported by this module.
+- `auditQueueCallback` (optional). A function that is invoked with an instance of `AuditQueue` to be able to access its state (i.e., the `isRunning` property).
 
 ### AxeObserver.observe
 

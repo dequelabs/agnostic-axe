@@ -55,4 +55,7 @@ export default class AuditQueue {
       }
     })
   }
+  get isRunning() {
+    return this._isRunning
+  }
 }
