@@ -24,7 +24,7 @@ const SharedAuditQueue = new AuditQueue()
 // The AxeObserver class takes a violationsCallback, which is invoked with an
 // array of observed violations.
 export default class AxeObserver {
-  constructor(violationsCallback) {
+  constructor(violationsCallback, auditQueueCallback) {
     if (typeof violationsCallback !== 'function') {
       throw new Error(
         'The AxeObserver constructor requires a violationsCallback'
@@ -42,6 +42,10 @@ export default class AxeObserver {
         this._auditNode(mutationRecord.target)
       })
     })
+    
+    if (auditQueueCallback) {
+      auditQueueCallback(SharedAuditQueue)
+    }
   }
   observe(targetNode) {
     if (!targetNode) {
